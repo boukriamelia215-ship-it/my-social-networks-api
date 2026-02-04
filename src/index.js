@@ -56,11 +56,11 @@ app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║
-║   🚀 My Social Networks API                          ║
+║    My Social Networks API                          ║
 ║                                                       ║
-║   📡 Serveur démarré sur le port ${PORT}                ║
-║   🌍 Environnement: ${process.env.NODE_ENV || 'development'}              ║
-║   📚 Documentation: http://localhost:${PORT}/api-docs    ║
+║    Serveur démarré sur le port ${PORT}                ║
+║    Environnement: ${process.env.NODE_ENV || 'development'}              ║
+║    Documentation: http://localhost:${PORT}/api-docs    ║
 ║                                                       ║
 ╚═══════════════════════════════════════════════════════╝
   `);
@@ -68,7 +68,7 @@ app.listen(PORT, () => {
 
 // Gestion des erreurs non gérées
 process.on('unhandledRejection', (err) => {
-  console.error('❌ Erreur non gérée:', err);
+  console.error(' Erreur non gérée:', err);
   process.exit(1);
 });
 
