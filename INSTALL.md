@@ -1,6 +1,6 @@
 # Guide d'installation et de démarrage rapide
 
-## 📋 Prérequis
+##  Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé :
 
@@ -18,7 +18,7 @@ mongo --version  # Doit afficher v5.x.x ou supérieur
 git --version    # Doit afficher 2.x.x ou supérieur
 ```
 
-## 🚀 Installation
+##  Installation
 
 ### 1. Cloner le projet
 
@@ -72,7 +72,7 @@ JWT_EXPIRE=7d
 NODE_ENV=development
 ```
 
-**⚠️ IMPORTANT** : 
+** IMPORTANT** : 
 - Changez `JWT_SECRET` par une chaîne aléatoire et sécurisée
 - Ne commitez JAMAIS le fichier `.env` sur Git (il est dans `.gitignore`)
 
@@ -104,7 +104,7 @@ mongosh
 mongo
 ```
 
-## 🎯 Démarrage
+##  Démarrage
 
 ### Mode développement (avec rechargement automatique)
 
@@ -136,7 +136,7 @@ Vous devriez voir :
 }
 ```
 
-## 📊 Vérifier la base de données
+## Vérifier la base de données
 
 ### Se connecter à MongoDB
 
@@ -166,7 +166,7 @@ db.users.find().pretty()
 db.dropDatabase()
 ```
 
-## 🧪 Tester l'API
+##  Tester l'API
 
 ### 1. Inscription d'un utilisateur
 
@@ -221,7 +221,7 @@ Interface graphique pour MongoDB :
 - ESLint
 - Prettier
 
-## 🐛 Résolution des problèmes courants
+##  Résolution des problèmes courants
 
 ### Erreur : MongoDB connection failed
 
@@ -275,7 +275,7 @@ npm install
 - Vérifier le format du header : `Authorization: Bearer <token>`
 - Se reconnecter pour obtenir un nouveau token
 
-## 📦 Structure du projet
+##  Structure du projet
 
 ```
 my-social-networks-api/
@@ -314,7 +314,7 @@ my-social-networks-api/
 └── INSTALL.md                   # Ce fichier
 ```
 
-## 🚀 Déploiement en production
+##  Déploiement en production
 
 ### Préparer l'application
 
@@ -376,14 +376,14 @@ pm2 startup
 pm2 save
 ```
 
-## 📚 Ressources supplémentaires
+##  Ressources supplémentaires
 
 - [Documentation Express](https://expressjs.com/)
 - [Documentation MongoDB](https://docs.mongodb.com/)
 - [Documentation Mongoose](https://mongoosejs.com/docs/)
 - [JWT.io](https://jwt.io/)
 
-## 🆘 Besoin d'aide ?
+##  Besoin d'aide ?
 
 Si vous rencontrez des problèmes :
 
@@ -393,7 +393,7 @@ Si vous rencontrez des problèmes :
 4. Consultez la documentation API dans README.md
 5. Testez avec les exemples dans EXAMPLES.md
 
-## ✅ Checklist de démarrage
+##  Checklist de démarrage
 
 - [ ] Node.js installé
 - [ ] MongoDB installé et démarré

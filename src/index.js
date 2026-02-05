@@ -39,11 +39,19 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import eventRoutes from './routes/events.js';
 import groupRoutes from './routes/groups.js';
+import discussionRoutes from './routes/discussions.js';
+import albumRoutes from './routes/albums.js';
+import pollRoutes from './routes/polls.js';
+import ticketRoutes from './routes/tickets.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/discussions', discussionRoutes);
+app.use('/api/albums', albumRoutes);
+app.use('/api/polls', pollRoutes);
+app.use('/api/tickets', ticketRoutes);
 
 // Middleware de gestion d'erreurs
 app.use(notFound);
@@ -56,11 +64,11 @@ app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║
-║   🚀 My Social Networks API                          ║
+║    My Social Networks API                          ║
 ║                                                       ║
-║   📡 Serveur démarré sur le port ${PORT}                ║
-║   🌍 Environnement: ${process.env.NODE_ENV || 'development'}              ║
-║   📚 Documentation: http://localhost:${PORT}/api-docs    ║
+║    Serveur démarré sur le port ${PORT}                ║
+║    Environnement: ${process.env.NODE_ENV || 'development'}              ║
+║    Documentation: http://localhost:${PORT}/api-docs    ║
 ║                                                       ║
 ╚═══════════════════════════════════════════════════════╝
   `);
@@ -68,7 +76,7 @@ app.listen(PORT, () => {
 
 // Gestion des erreurs non gérées
 process.on('unhandledRejection', (err) => {
-  console.error('❌ Erreur non gérée:', err);
+  console.error(' Erreur non gérée:', err);
   process.exit(1);
 });
 

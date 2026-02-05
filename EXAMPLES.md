@@ -9,7 +9,7 @@ BASE_URL="http://localhost:3000/api"
 TOKEN="votre_token_jwt_ici"
 ```
 
-## 🔐 Authentification
+##  Authentification
 
 ### Inscription
 
@@ -46,7 +46,7 @@ curl -X GET $BASE_URL/auth/me \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-## 👤 Utilisateurs
+##  Utilisateurs
 
 ### Liste des utilisateurs
 
@@ -74,7 +74,7 @@ curl -X PUT $BASE_URL/users/60d5ec49f1b2c8b1f8c7e8a1 \
   }'
 ```
 
-## 👥 Groupes
+##  Groupes
 
 ### Créer un groupe
 
@@ -168,7 +168,7 @@ curl -X DELETE $BASE_URL/groups/60d5ec49f1b2c8b1f8c7e8a2 \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-## 📅 Événements
+##  Événements
 
 ### Créer un événement simple
 
@@ -287,7 +287,7 @@ curl -X DELETE $BASE_URL/events/60d5ec49f1b2c8b1f8c7e8a4 \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-## 📊 Scénarios de test complets
+##  Scénarios de test complets
 
 ### Scénario 1: Créer un groupe et un événement
 
@@ -400,7 +400,7 @@ curl -X POST $BASE_URL/events \
   }"
 ```
 
-## 🧪 Tests de validation
+##  Tests de validation
 
 ### Test de validation email invalide
 
@@ -448,7 +448,7 @@ curl -X POST $BASE_URL/events \
 # Devrait retourner une erreur (endDate avant startDate)
 ```
 
-## 📌 Notes
+##  Notes
 
 - Remplacez `$TOKEN` par votre vrai token JWT après connexion
 - Remplacez les IDs (ex: `60d5ec49f1b2c8b1f8c7e8a1`) par les vrais IDs de votre base de données
