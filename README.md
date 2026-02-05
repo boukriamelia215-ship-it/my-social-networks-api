@@ -1,10 +1,10 @@
 # My Social Networks API
 
-API REST complète pour la gestion d'un réseau social avec événements, groupes et interactions.
+API REST complète pour la gestion d'un réseau social avec événements, groupes, discussions, albums photos, sondages, billetterie et fonctionnalités bonus.
 
 ---
 
-## Informations
+##  Informations
 
 **Étudiante** : Amelia Boukri  
 **Formation** : Master 1 Data Engineering et Intelligence Artificielle  
@@ -14,120 +14,181 @@ API REST complète pour la gestion d'un réseau social avec événements, groupe
 
 ---
 
-## À propos
+##  À propos
 
-Cette API REST a été développée dans le cadre d'un projet universitaire pour Facebook. Elle permet de gérer un réseau social complet incluant des utilisateurs, des événements, des groupes, des discussions, des albums photos, des sondages et un système de billetterie.
+Cette API REST a été développée dans le cadre d'un projet universitaire pour Facebook. Elle permet de gérer un réseau social complet incluant :
 
-Le projet respecte intégralement les spécifications du cahier des charges et implémente également les fonctionnalités bonus (liste de courses collaborative et covoiturage).
+- Gestion des utilisateurs avec authentification JWT
+- Création et gestion d'événements (publics/privés)
+- Groupes (public, privé, secret) avec permissions personnalisables
+- Fils de discussion et messagerie
+- Albums photos avec commentaires
+- Sondages pour les événements
+- Système de billetterie complet
+- **BONUS** : Liste de courses collaborative
+- **BONUS** : Système de covoiturage
+
+Le projet respecte intégralement les spécifications du cahier des charges et implémente les deux fonctionnalités bonus demandées.
 
 ---
 
-## Technologies utilisées
+## 🛠 Technologies utilisées
 
 ### Backend
 - **Node.js** (v16+) - Environnement d'exécution JavaScript
-- **Express.js** (v4.18) - Framework web
-- **MongoDB** (v8.2) - Base de données NoSQL
-- **Mongoose** (v8.0) - ODM pour MongoDB
+- **Express.js** (v4.18) - Framework web minimaliste
+- **MongoDB** (v8.2) - Base de données NoSQL orientée documents
+- **Mongoose** (v8.0) - ODM (Object Data Modeling) pour MongoDB
 
-### Sécurité
-- **JWT** - Authentification par tokens
-- **bcryptjs** - Hachage sécurisé des mots de passe
-- **express-validator** - Validation des données
+### Sécurité & Validation
+- **JWT (jsonwebtoken)** - Authentification par tokens sécurisés
+- **bcryptjs** - Hachage sécurisé des mots de passe (10 rounds)
+- **express-validator** - Validation et sanitization des données d'entrée
 
-### Outils
-- **Morgan** - Logger HTTP
+### Outils de développement
+- **Morgan** - Logger HTTP pour le développement
 - **CORS** - Gestion des requêtes cross-origin
-- **Nodemon** - Rechargement automatique en développement
+- **Nodemon** - Rechargement automatique du serveur en développement
+- **dotenv** - Gestion des variables d'environnement
 
 ---
 
-## Architecture
+## Architecture du projet
 
-Le projet suit une architecture MVC (Model-View-Controller) :
-
+Le projet suit une architecture **MVC (Model-View-Controller)** modulaire :
 ```
-src/
-├── config/          Configuration MongoDB
-├── controllers/     Logique métier
-├── middleware/      Authentification, validation, gestion d'erreurs
-├── models/          Schémas de données (14 modèles)
-├── routes/          Définition des endpoints
-├── validators/      Règles de validation
-└── index.js         Point d'entrée de l'application
+my-social-networks-api/
+├── src/
+│   ├── config/              # Configuration (MongoDB)
+│   ├── controllers/         # Logique métier (10 controllers)
+│   ├── middleware/          # Middlewares (auth, validation, erreurs)
+│   ├── models/              # Schémas Mongoose (14 modèles)
+│   ├── routes/              # Définition des endpoints (10 fichiers)
+│   ├── validators/          # Règles de validation
+│   └── index.js             # Point d'entrée de l'application
+├── .env                     # Variables d'environnement (non versionné)
+├── .env.example             # Exemple de configuration
+├── .gitignore               # Fichiers à ignorer par Git
+├── package.json             # Dépendances et scripts npm
+└── README.md                # Documentation du projet
 ```
 
 ---
 
-## Modèles de données
+## 🗄️ Modèles de données
 
-L'API comprend **14 modèles** couvrant toutes les fonctionnalités :
+L'API comprend **14 modèles** couvrant l'ensemble des fonctionnalités :
 
-**Entités principales**
-- User - Gestion des utilisateurs
-- Event - Événements avec organisateurs et participants
-- Group - Groupes (public, privé, secret)
+### Entités principales
+- **User** - Utilisateurs avec authentification
+- **Event** - Événements avec organisateurs et participants
+- **Group** - Groupes (public, privé, secret)
 
-**Interactions sociales**
-- DiscussionThread - Fils de discussion
-- Message - Messages avec système de réponses
-- PhotoAlbum - Albums photos d'événements
-- Photo - Photos uploadées
-- PhotoComment - Commentaires sur photos
+### Communication
+- **DiscussionThread** - Fils de discussion liés aux groupes/événements
+- **Message** - Messages avec système de réponses (threads)
 
-**Fonctionnalités avancées**
-- Poll - Sondages
-- PollResponse - Réponses aux sondages
-- TicketType - Types de billets
-- Ticket - Billets achetés
+### Médias
+- **PhotoAlbum** - Albums photos d'événements
+- **Photo** - Photos uploadées par les participants
+- **PhotoComment** - Commentaires sur les photos
 
-**Fonctionnalités bonus**
-- ShoppingListItem - Liste de courses collaborative
-- Carpool - Covoiturage pour événements
+### Interactions
+- **Poll** - Sondages créés par les organisateurs
+- **PollResponse** - Réponses des participants aux sondages
+
+### Billetterie
+- **TicketType** - Types de billets configurables
+- **Ticket** - Billets achetés avec informations acheteur
+
+### Fonctionnalités bonus
+- **ShoppingListItem** - Liste de courses collaborative
+- **Carpool** - Covoiturage pour les événements
 
 ---
 
-## API REST - Endpoints disponibles
+##  API REST - Endpoints disponibles
 
-### Authentification (3 endpoints)
-```
-POST   /api/auth/register       Inscription d'un utilisateur
-POST   /api/auth/login          Connexion et génération du token
-GET    /api/auth/me             Profil de l'utilisateur connecté
-```
+**Total : 58 endpoints fonctionnels**
 
-### Utilisateurs (4 endpoints)
-```
-GET    /api/users               Liste des utilisateurs (pagination + recherche)
-GET    /api/users/:id           Détails d'un utilisateur
-PUT    /api/users/:id           Modification du profil
-DELETE /api/users/:id           Désactivation du compte
-```
+###  Authentification (3 endpoints)
+- POST `/api/auth/register` - Inscription
+- POST `/api/auth/login` - Connexion
+- GET `/api/auth/me` - Profil connecté
 
-### Événements (7 endpoints)
-```
-POST   /api/events                      Création d'un événement
-GET    /api/events                      Liste des événements (filtres)
-GET    /api/events/:id                  Détails d'un événement
-PUT    /api/events/:id                  Modification
-DELETE /api/events/:id                  Suppression
-POST   /api/events/:id/participants     Ajouter un participant
-DELETE /api/events/:id/participants/:id Retirer un participant
-```
+###  Utilisateurs (4 endpoints)
+- GET `/api/users` - Liste des utilisateurs
+- GET `/api/users/:id` - Détails utilisateur
+- PUT `/api/users/:id` - Modifier profil
+- DELETE `/api/users/:id` - Désactiver compte
 
-### Groupes (8 endpoints)
-```
-POST   /api/groups                       Création d'un groupe
-GET    /api/groups                       Liste des groupes
-GET    /api/groups/:id                   Détails d'un groupe
-PUT    /api/groups/:id                   Modification
-DELETE /api/groups/:id                   Suppression
-POST   /api/groups/:id/members           Ajouter un membre
-DELETE /api/groups/:id/members/:id       Retirer un membre
-POST   /api/groups/:id/administrators    Ajouter un administrateur
-```
+###  Événements (7 endpoints)
+- POST `/api/events` - Créer événement
+- GET `/api/events` - Liste événements
+- GET `/api/events/:id` - Détails événement
+- PUT `/api/events/:id` - Modifier événement
+- DELETE `/api/events/:id` - Supprimer événement
+- POST `/api/events/:id/participants` - Ajouter participant
+- DELETE `/api/events/:id/participants/:userId` - Retirer participant
 
-**Total : 22 endpoints fonctionnels**
+###  Groupes (8 endpoints)
+- POST `/api/groups` - Créer groupe
+- GET `/api/groups` - Liste groupes
+- GET `/api/groups/:id` - Détails groupe
+- PUT `/api/groups/:id` - Modifier groupe
+- DELETE `/api/groups/:id` - Supprimer groupe
+- POST `/api/groups/:id/members` - Ajouter membre
+- DELETE `/api/groups/:id/members/:userId` - Retirer membre
+- POST `/api/groups/:id/administrators` - Ajouter admin
+
+###  Discussions & Messages (6 endpoints)
+- POST `/api/discussions` - Créer discussion
+- GET `/api/discussions` - Liste discussions
+- GET `/api/discussions/:id` - Détails discussion
+- POST `/api/discussions/:id/messages` - Poster message
+- GET `/api/discussions/:id/messages` - Récupérer messages
+- DELETE `/api/messages/:id` - Supprimer message
+
+###  Albums & Photos (8 endpoints)
+- POST `/api/albums` - Créer album
+- GET `/api/albums` - Liste albums
+- GET `/api/albums/:id` - Détails album
+- POST `/api/albums/:id/photos` - Ajouter photo
+- GET `/api/albums/:id/photos` - Photos d'un album
+- DELETE `/api/albums/photos/:id` - Supprimer photo
+- POST `/api/albums/photos/:id/comments` - Commenter photo
+- GET `/api/albums/photos/:id/comments` - Commentaires photo
+
+###  Sondages (6 endpoints)
+- POST `/api/polls` - Créer sondage
+- GET `/api/polls` - Liste sondages
+- GET `/api/polls/:id` - Détails sondage
+- POST `/api/polls/:id/responses` - Répondre au sondage
+- GET `/api/polls/:id/results` - Résultats sondage
+- DELETE `/api/polls/:id` - Supprimer sondage
+
+###  Billetterie (6 endpoints)
+- POST `/api/tickets/ticket-types` - Créer type de billet
+- GET `/api/tickets/ticket-types` - Liste types de billets
+- GET `/api/tickets/ticket-types/:id` - Détails type billet
+- DELETE `/api/tickets/ticket-types/:id` - Supprimer type billet
+- POST `/api/tickets` - Acheter billet
+- GET `/api/tickets` - Liste billets vendus
+
+### 🛒 Shopping List - BONUS (4 endpoints)
+- POST `/api/shopping-list` - Ajouter item
+- GET `/api/shopping-list` - Liste items
+- PUT `/api/shopping-list/:id` - Modifier item
+- DELETE `/api/shopping-list/:id` - Supprimer item
+
+###  Covoiturage - BONUS (6 endpoints)
+- POST `/api/carpools` - Proposer covoiturage
+- GET `/api/carpools` - Liste covoiturages
+- GET `/api/carpools/:id` - Détails covoiturage
+- PUT `/api/carpools/:id` - Modifier covoiturage
+- DELETE `/api/carpools/:id` - Supprimer covoiturage
+- POST `/api/carpools/:id/join` - Rejoindre covoiturage
+- DELETE `/api/carpools/:id/leave` - Quitter covoiturage
 
 ---
 
@@ -136,28 +197,28 @@ POST   /api/groups/:id/administrators    Ajouter un administrateur
 ### Authentification JWT
 - Tokens générés à l'inscription et à la connexion
 - Durée de validité : 7 jours (configurable)
-- Header : `Authorization: Bearer <token>`
-- Middleware de protection sur toutes les routes sensibles
+- Header requis : `Authorization: Bearer <token>`
+- Middleware de protection sur routes sensibles
 
 ### Protection des données
-- Mots de passe hashés avec bcryptjs (10 rounds de salage)
-- Email unique garanti au niveau de la base de données
-- Validation systématique des entrées avec express-validator
-- Gestion centralisée des erreurs avec messages explicites
+- Mots de passe hashés avec bcryptjs (10 rounds)
+- Email unique garanti (index MongoDB)
+- Validation systématique avec express-validator
+- Gestion centralisée des erreurs
 
 ### Autorisations
 - Un utilisateur ne peut modifier que son propre profil
 - Seuls les organisateurs peuvent modifier un événement
-- Seuls les administrateurs peuvent modifier un groupe
-- Règles strictes pour les suppressions
+- Seuls les administrateurs peuvent gérer un groupe
+- Validation des permissions avant chaque action
 
 ---
 
-## Installation
+##  Installation
 
 ### Prérequis
-- Node.js v16 ou supérieur
-- MongoDB v5 ou supérieur
+- Node.js v16+
+- MongoDB v5+
 - npm
 
 ### Étapes
@@ -182,7 +243,7 @@ Modifier le fichier `.env` :
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/my-social-networks
-JWT_SECRET=votre_secret_securise
+JWT_SECRET=votre_secret_jwt_super_securise
 JWT_EXPIRE=7d
 NODE_ENV=development
 ```
@@ -212,88 +273,35 @@ L'API sera accessible sur `http://localhost:3000`
 
 ---
 
-## Tests
+##  Tests
 
-L'API a été testée avec **Postman**. Voici les résultats des tests principaux :
+L'API a été testée avec **Postman**. Résultats des tests principaux :
 
-### Test 1 - Inscription utilisateur
-**Endpoint** : `POST /api/auth/register`
+### ✅ Test 1 - Inscription utilisateur
+**Endpoint** : `POST /api/auth/register`  
+**Résultat** : Utilisateur créé, token JWT généré, email unique vérifié
 
-**Données envoyées** :
-```json
-{
-  "firstName": "Amelia",
-  "lastName": "Boukri",
-  "email": "amelia.test@example.com",
-  "password": "password123",
-  "dateOfBirth": "2000-01-15"
-}
-```
+### ✅ Test 2 - Authentification
+**Endpoint** : `POST /api/auth/login`  
+**Résultat** : Connexion réussie, token JWT valide
 
-**Résultat** : Utilisateur créé avec succès, token JWT généré, email unique vérifié
-
----
-
-### Test 2 - Authentification
-**Endpoint** : `POST /api/auth/login`
-
-**Données envoyées** :
-```json
-{
-  "email": "amelia.test@example.com",
-  "password": "password123"
-}
-```
-
-**Résultat** : Connexion réussie, token JWT valide généré
-
----
-
-### Test 3 - Création de groupe
+### ✅ Test 3 - Création de groupe
 **Endpoint** : `POST /api/groups`  
-**Authentification** : Token JWT requis
+**Résultat** : Groupe créé, utilisateur ajouté comme admin
 
-**Données envoyées** :
-```json
-{
-  "name": "Mon premier groupe",
-  "description": "Groupe de test pour le projet",
-  "type": "public"
-}
-```
-
-**Résultat** : Groupe créé, utilisateur ajouté automatiquement comme administrateur et membre
-
----
-
-### Test 4 - Création d'événement
+### ✅ Test 4 - Création d'événement
 **Endpoint** : `POST /api/events`  
-**Authentification** : Token JWT requis
+**Résultat** : Événement créé, utilisateur ajouté comme organisateur
 
-**Données envoyées** :
-```json
-{
-  "name": "Soirée de lancement",
-  "description": "Événement test pour valider l'API",
-  "startDate": "2026-07-15T19:00:00.000Z",
-  "endDate": "2026-07-15T23:00:00.000Z",
-  "location": "Paris, France"
-}
-```
-
-**Résultat** : Événement créé, utilisateur ajouté comme organisateur, validation des dates OK
+**Statut global** : ✅ Tous les tests réussis
 
 ---
 
-**Statut global** : Tous les tests réussis
+## ✨ Fonctionnalités clés
 
----
-
-## Fonctionnalités clés
-
-- Architecture RESTful respectant les standards
+- Architecture RESTful respectant les standards HTTP
 - Authentification sécurisée avec JWT
-- Validation complète des données en entrée
+- Validation complète des données
 - Gestion des relations entre entités (Mongoose populate)
 - Pagination et filtres sur les listes
 - Gestion d'erreurs centralisée
@@ -303,18 +311,14 @@ L'API a été testée avec **Postman**. Voici les résultats des tests principau
 
 ---
 
-## Format des réponses
-
-Toutes les réponses de l'API suivent un format JSON standardisé :
+## 📤 Format des réponses
 
 **Succès** :
 ```json
 {
   "success": true,
   "message": "Description de l'action",
-  "data": {
-    // Données retournées
-  }
+  "data": { }
 }
 ```
 
@@ -323,18 +327,13 @@ Toutes les réponses de l'API suivent un format JSON standardisé :
 {
   "success": false,
   "message": "Description de l'erreur",
-  "errors": [
-    {
-      "field": "nom_du_champ",
-      "message": "Message d'erreur"
-    }
-  ]
+  "errors": [...]
 }
 ```
 
 ---
 
-## Codes HTTP
+## 🔢 Codes HTTP
 
 - `200 OK` - Requête réussie
 - `201 Created` - Ressource créée
@@ -348,31 +347,32 @@ Toutes les réponses de l'API suivent un format JSON standardisé :
 
 ## Repository
 
-Le code source complet est disponible sur GitHub :  
-https://github.com/boukriamelia215-ship-it/my-social-networks-api
+**https://github.com/boukriamelia215-ship-it/my-social-networks-api**
 
 ---
 
-## Conformité au cahier des charges
+## ✅ Conformité au cahier des charges
 
-- Tous les modèles de données spécifiés sont implémentés
-- Toutes les relations entre entités sont gérées
-- Validation des schémas avec Mongoose
-- Sécurisation avec express-validator
-- Authentification JWT fonctionnelle
-- Routes RESTful cohérentes
-- Fonctionnalités bonus (shopping list, covoiturage)
+- ✅ Tous les modèles de données spécifiés sont implémentés
+- ✅ Toutes les relations entre entités sont gérées
+- ✅ Validation des schémas avec Mongoose
+- ✅ Sécurisation avec express-validator
+- ✅ Authentification JWT fonctionnelle
+- ✅ Routes RESTful cohérentes
+- ✅ Fonctionnalités bonus (shopping list, covoiturage)
+- ✅ Documentation complète
+- ✅ Code sur repository Git
 
 ---
 
-## Évolutions possibles
+##  Évolutions possibles
 
-- Implémentation des routes pour photos, sondages et billetterie
 - Tests unitaires automatisés (Jest)
 - Documentation interactive (Swagger)
 - Upload réel de fichiers
 - Notifications en temps réel (WebSockets)
 - Caching avec Redis
+- Déploiement CI/CD
 
 ---
 
