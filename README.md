@@ -1,42 +1,245 @@
 # My Social Networks API
 
-API REST pour le service My Social Networks de Facebook. Cette API permet de gérer des événements, des groupes, des fils de discussion, des albums photo, des sondages et bien plus encore.
+API REST complète pour la gestion d'un réseau social avec événements, groupes, discussions, albums photos, sondages, billetterie et fonctionnalités bonus.
 
-## 📋 Table des matières
+---
 
-- [Technologies utilisées](#technologies-utilisées)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Démarrage](#démarrage)
-- [Architecture](#architecture)
-- [Documentation API](#documentation-api)
-- [Modèles de données](#modèles-de-données)
+##  Informations
+
+**Étudiante** : Amelia Boukri  
+**Formation** : Master 1 Data Engineering et Intelligence Artificielle  
+**Module** : API Web Services  
+**Enseignant** : Cyril Vimard  
+**Année** : 2025-2026
+
+---
+
+##  À propos
+
+Cette API REST a été développée dans le cadre d'un projet universitaire pour Facebook. Elle permet de gérer un réseau social complet incluant :
+
+- Gestion des utilisateurs avec authentification JWT
+- Création et gestion d'événements (publics/privés)
+- Groupes (public, privé, secret) avec permissions personnalisables
+- Fils de discussion et messagerie
+- Albums photos avec commentaires
+- Sondages pour les événements
+- Système de billetterie complet
+- **BONUS** : Liste de courses collaborative
+- **BONUS** : Système de covoiturage
+
+Le projet respecte intégralement les spécifications du cahier des charges et implémente les deux fonctionnalités bonus demandées.
+
+---
 
 ## 🛠 Technologies utilisées
 
-- **Node.js** - Environnement d'exécution JavaScript
-- **Express** - Framework web
-- **MongoDB** - Base de données NoSQL
-- **Mongoose** - ODM pour MongoDB
-- **JWT** - Authentification par tokens
-- **bcryptjs** - Hachage des mots de passe
-- **express-validator** - Validation des données
+### Backend
+- **Node.js** (v16+) - Environnement d'exécution JavaScript
+- **Express.js** (v4.18) - Framework web minimaliste
+- **MongoDB** (v8.2) - Base de données NoSQL orientée documents
+- **Mongoose** (v8.0) - ODM (Object Data Modeling) pour MongoDB
 
-## 📦 Installation
+### Sécurité & Validation
+- **JWT (jsonwebtoken)** - Authentification par tokens sécurisés
+- **bcryptjs** - Hachage sécurisé des mots de passe (10 rounds)
+- **express-validator** - Validation et sanitization des données d'entrée
 
+### Outils de développement
+- **Morgan** - Logger HTTP pour le développement
+- **CORS** - Gestion des requêtes cross-origin
+- **Nodemon** - Rechargement automatique du serveur en développement
+- **dotenv** - Gestion des variables d'environnement
+
+---
+
+## Architecture du projet
+
+Le projet suit une architecture **MVC (Model-View-Controller)** modulaire :
+```
+my-social-networks-api/
+├── src/
+│   ├── config/              # Configuration (MongoDB)
+│   ├── controllers/         # Logique métier (10 controllers)
+│   ├── middleware/          # Middlewares (auth, validation, erreurs)
+│   ├── models/              # Schémas Mongoose (14 modèles)
+│   ├── routes/              # Définition des endpoints (10 fichiers)
+│   ├── validators/          # Règles de validation
+│   └── index.js             # Point d'entrée de l'application
+├── .env                     # Variables d'environnement (non versionné)
+├── .env.example             # Exemple de configuration
+├── .gitignore               # Fichiers à ignorer par Git
+├── package.json             # Dépendances et scripts npm
+└── README.md                # Documentation du projet
+```
+
+---
+
+## 🗄️ Modèles de données
+
+L'API comprend **14 modèles** couvrant l'ensemble des fonctionnalités :
+
+### Entités principales
+- **User** - Utilisateurs avec authentification
+- **Event** - Événements avec organisateurs et participants
+- **Group** - Groupes (public, privé, secret)
+
+### Communication
+- **DiscussionThread** - Fils de discussion liés aux groupes/événements
+- **Message** - Messages avec système de réponses (threads)
+
+### Médias
+- **PhotoAlbum** - Albums photos d'événements
+- **Photo** - Photos uploadées par les participants
+- **PhotoComment** - Commentaires sur les photos
+
+### Interactions
+- **Poll** - Sondages créés par les organisateurs
+- **PollResponse** - Réponses des participants aux sondages
+
+### Billetterie
+- **TicketType** - Types de billets configurables
+- **Ticket** - Billets achetés avec informations acheteur
+
+### Fonctionnalités bonus
+- **ShoppingListItem** - Liste de courses collaborative
+- **Carpool** - Covoiturage pour les événements
+
+---
+
+##  API REST - Endpoints disponibles
+
+**Total : 58 endpoints fonctionnels**
+
+###  Authentification (3 endpoints)
+- POST `/api/auth/register` - Inscription
+- POST `/api/auth/login` - Connexion
+- GET `/api/auth/me` - Profil connecté
+
+###  Utilisateurs (4 endpoints)
+- GET `/api/users` - Liste des utilisateurs
+- GET `/api/users/:id` - Détails utilisateur
+- PUT `/api/users/:id` - Modifier profil
+- DELETE `/api/users/:id` - Désactiver compte
+
+###  Événements (7 endpoints)
+- POST `/api/events` - Créer événement
+- GET `/api/events` - Liste événements
+- GET `/api/events/:id` - Détails événement
+- PUT `/api/events/:id` - Modifier événement
+- DELETE `/api/events/:id` - Supprimer événement
+- POST `/api/events/:id/participants` - Ajouter participant
+- DELETE `/api/events/:id/participants/:userId` - Retirer participant
+
+###  Groupes (8 endpoints)
+- POST `/api/groups` - Créer groupe
+- GET `/api/groups` - Liste groupes
+- GET `/api/groups/:id` - Détails groupe
+- PUT `/api/groups/:id` - Modifier groupe
+- DELETE `/api/groups/:id` - Supprimer groupe
+- POST `/api/groups/:id/members` - Ajouter membre
+- DELETE `/api/groups/:id/members/:userId` - Retirer membre
+- POST `/api/groups/:id/administrators` - Ajouter admin
+
+###  Discussions & Messages (6 endpoints)
+- POST `/api/discussions` - Créer discussion
+- GET `/api/discussions` - Liste discussions
+- GET `/api/discussions/:id` - Détails discussion
+- POST `/api/discussions/:id/messages` - Poster message
+- GET `/api/discussions/:id/messages` - Récupérer messages
+- DELETE `/api/messages/:id` - Supprimer message
+
+###  Albums & Photos (8 endpoints)
+- POST `/api/albums` - Créer album
+- GET `/api/albums` - Liste albums
+- GET `/api/albums/:id` - Détails album
+- POST `/api/albums/:id/photos` - Ajouter photo
+- GET `/api/albums/:id/photos` - Photos d'un album
+- DELETE `/api/albums/photos/:id` - Supprimer photo
+- POST `/api/albums/photos/:id/comments` - Commenter photo
+- GET `/api/albums/photos/:id/comments` - Commentaires photo
+
+###  Sondages (6 endpoints)
+- POST `/api/polls` - Créer sondage
+- GET `/api/polls` - Liste sondages
+- GET `/api/polls/:id` - Détails sondage
+- POST `/api/polls/:id/responses` - Répondre au sondage
+- GET `/api/polls/:id/results` - Résultats sondage
+- DELETE `/api/polls/:id` - Supprimer sondage
+
+###  Billetterie (6 endpoints)
+- POST `/api/tickets/ticket-types` - Créer type de billet
+- GET `/api/tickets/ticket-types` - Liste types de billets
+- GET `/api/tickets/ticket-types/:id` - Détails type billet
+- DELETE `/api/tickets/ticket-types/:id` - Supprimer type billet
+- POST `/api/tickets` - Acheter billet
+- GET `/api/tickets` - Liste billets vendus
+
+### 🛒 Shopping List - BONUS (4 endpoints)
+- POST `/api/shopping-list` - Ajouter item
+- GET `/api/shopping-list` - Liste items
+- PUT `/api/shopping-list/:id` - Modifier item
+- DELETE `/api/shopping-list/:id` - Supprimer item
+
+###  Covoiturage - BONUS (6 endpoints)
+- POST `/api/carpools` - Proposer covoiturage
+- GET `/api/carpools` - Liste covoiturages
+- GET `/api/carpools/:id` - Détails covoiturage
+- PUT `/api/carpools/:id` - Modifier covoiturage
+- DELETE `/api/carpools/:id` - Supprimer covoiturage
+- POST `/api/carpools/:id/join` - Rejoindre covoiturage
+- DELETE `/api/carpools/:id/leave` - Quitter covoiturage
+
+---
+
+## Sécurité
+
+### Authentification JWT
+- Tokens générés à l'inscription et à la connexion
+- Durée de validité : 7 jours (configurable)
+- Header requis : `Authorization: Bearer <token>`
+- Middleware de protection sur routes sensibles
+
+### Protection des données
+- Mots de passe hashés avec bcryptjs (10 rounds)
+- Email unique garanti (index MongoDB)
+- Validation systématique avec express-validator
+- Gestion centralisée des erreurs
+
+### Autorisations
+- Un utilisateur ne peut modifier que son propre profil
+- Seuls les organisateurs peuvent modifier un événement
+- Seuls les administrateurs peuvent gérer un groupe
+- Validation des permissions avant chaque action
+
+---
+
+##  Installation
+
+### Prérequis
+- Node.js v16+
+- MongoDB v5+
+- npm
+
+### Étapes
+
+1. **Cloner le repository**
 ```bash
-# Cloner le repository
-git clone <votre-repo-url>
+git clone https://github.com/boukriamelia215-ship-it/my-social-networks-api.git
 cd my-social-networks-api
+```
 
-# Installer les dépendances
+2. **Installer les dépendances**
+```bash
 npm install
 ```
 
-## ⚙️ Configuration
+3. **Configurer les variables d'environnement**
+```bash
+cp .env.example .env
+```
 
-Créer un fichier `.env` à la racine du projet :
-
+Modifier le fichier `.env` :
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/my-social-networks
@@ -45,8 +248,19 @@ JWT_EXPIRE=7d
 NODE_ENV=development
 ```
 
-## 🚀 Démarrage
+4. **Démarrer MongoDB**
+```bash
+# Windows
+net start MongoDB
 
+# macOS
+brew services start mongodb-community
+
+# Linux
+sudo systemctl start mongod
+```
+
+5. **Lancer l'application**
 ```bash
 # Mode développement
 npm run dev
@@ -57,683 +271,109 @@ npm start
 
 L'API sera accessible sur `http://localhost:3000`
 
-## 🏗 Architecture
+---
 
-```
-src/
-├── config/
-│   └── database.js          # Configuration MongoDB
-├── controllers/
-│   ├── authController.js    # Authentification
-│   ├── userController.js    # Gestion utilisateurs
-│   ├── eventController.js   # Gestion événements
-│   └── groupController.js   # Gestion groupes
-├── middleware/
-│   ├── auth.js              # Middleware JWT
-│   ├── error.js             # Gestion erreurs
-│   └── validate.js          # Validation
-├── models/
-│   ├── User.js              # Modèle utilisateur
-│   ├── Event.js             # Modèle événement
-│   ├── Group.js             # Modèle groupe
-│   ├── DiscussionThread.js  # Modèle fil discussion
-│   ├── Message.js           # Modèle message
-│   ├── PhotoAlbum.js        # Modèle album photo
-│   ├── Photo.js             # Modèle photo
-│   ├── PhotoComment.js      # Modèle commentaire photo
-│   ├── Poll.js              # Modèle sondage
-│   ├── PollResponse.js      # Modèle réponse sondage
-│   ├── TicketType.js        # Modèle type de billet
-│   ├── Ticket.js            # Modèle billet
-│   ├── ShoppingListItem.js  # Modèle liste courses (BONUS)
-│   └── Carpool.js           # Modèle covoiturage (BONUS)
-├── routes/
-│   ├── auth.js              # Routes authentification
-│   ├── users.js             # Routes utilisateurs
-│   ├── events.js            # Routes événements
-│   └── groups.js            # Routes groupes
-├── validators/
-│   ├── userValidator.js     # Validation utilisateurs
-│   ├── eventValidator.js    # Validation événements
-│   └── groupValidator.js    # Validation groupes
-└── index.js                 # Point d'entrée
-```
+##  Tests
 
-## 📚 Documentation API
+L'API a été testée avec **Postman**. Résultats des tests principaux :
 
-### Base URL
+### ✅ Test 1 - Inscription utilisateur
+**Endpoint** : `POST /api/auth/register`  
+**Résultat** : Utilisateur créé, token JWT généré, email unique vérifié
 
-```
-http://localhost:3000/api
-```
+### ✅ Test 2 - Authentification
+**Endpoint** : `POST /api/auth/login`  
+**Résultat** : Connexion réussie, token JWT valide
 
-### Authentification
+### ✅ Test 3 - Création de groupe
+**Endpoint** : `POST /api/groups`  
+**Résultat** : Groupe créé, utilisateur ajouté comme admin
 
-Toutes les routes (sauf `/auth/register` et `/auth/login`) nécessitent un token JWT dans le header :
+### ✅ Test 4 - Création d'événement
+**Endpoint** : `POST /api/events`  
+**Résultat** : Événement créé, utilisateur ajouté comme organisateur
 
-```
-Authorization: Bearer <votre_token_jwt>
-```
+**Statut global** : ✅ Tous les tests réussis
 
 ---
 
-## 🔐 Authentification
+## ✨ Fonctionnalités clés
 
-### Inscription
+- Architecture RESTful respectant les standards HTTP
+- Authentification sécurisée avec JWT
+- Validation complète des données
+- Gestion des relations entre entités (Mongoose populate)
+- Pagination et filtres sur les listes
+- Gestion d'erreurs centralisée
+- Code modulaire et maintenable
+- Conformité totale au cahier des charges
+- Fonctionnalités bonus implémentées
 
-```http
-POST /api/auth/register
-```
+---
 
-**Body:**
-```json
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "dateOfBirth": "1990-01-01",
-  "phone": "+33612345678",
-  "location": "Paris, France",
-  "bio": "Passionné de technologie"
-}
-```
+## 📤 Format des réponses
 
-**Réponse:**
+**Succès** :
 ```json
 {
   "success": true,
-  "message": "Utilisateur créé avec succès",
-  "data": {
-    "user": { ... },
-    "token": "eyJhbGciOiJIUzI1NiIs..."
-  }
+  "message": "Description de l'action",
+  "data": { }
 }
 ```
 
-### Connexion
-
-```http
-POST /api/auth/login
-```
-
-**Body:**
+**Erreur** :
 ```json
 {
-  "email": "john.doe@example.com",
-  "password": "password123"
-}
-```
-
-### Obtenir l'utilisateur connecté
-
-```http
-GET /api/auth/me
-```
-
----
-
-## 👤 Utilisateurs
-
-### Obtenir tous les utilisateurs
-
-```http
-GET /api/users?search=john&limit=20&page=1
-```
-
-**Query Parameters:**
-- `search` (optionnel) - Rechercher par nom ou email
-- `limit` (optionnel) - Nombre de résultats par page (défaut: 20)
-- `page` (optionnel) - Numéro de page (défaut: 1)
-
-### Obtenir un utilisateur par ID
-
-```http
-GET /api/users/:id
-```
-
-### Mettre à jour un utilisateur
-
-```http
-PUT /api/users/:id
-```
-
-**Body:**
-```json
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "bio": "Nouvelle bio",
-  "location": "Lyon, France",
-  "phone": "+33612345678"
-}
-```
-
-### Supprimer un utilisateur
-
-```http
-DELETE /api/users/:id
-```
-
----
-
-## 📅 Événements
-
-### Créer un événement
-
-```http
-POST /api/events
-```
-
-**Body:**
-```json
-{
-  "name": "Soirée d'anniversaire",
-  "description": "Venez célébrer mes 30 ans !",
-  "startDate": "2026-06-15T19:00:00.000Z",
-  "endDate": "2026-06-16T02:00:00.000Z",
-  "location": "123 Rue de la Fête, 75001 Paris",
-  "coverPhoto": "https://example.com/photo.jpg",
-  "isPrivate": false,
-  "organizers": ["60d5ec49f1b2c8b1f8c7e8a1"],
-  "group": "60d5ec49f1b2c8b1f8c7e8a2",
-  "hasTicketing": true,
-  "hasShoppingList": true,
-  "hasCarpooling": true
-}
-```
-
-**Champs requis:**
-- `name` - Nom de l'événement (max 200 caractères)
-- `description` - Description (max 5000 caractères)
-- `startDate` - Date de début (ISO 8601)
-- `endDate` - Date de fin (ISO 8601, doit être après startDate)
-- `location` - Lieu de l'événement (max 500 caractères)
-
-**Champs optionnels:**
-- `coverPhoto` - URL de la photo de couverture
-- `isPrivate` - Événement privé ou public (défaut: false)
-- `organizers` - Array d'IDs d'organisateurs (l'utilisateur connecté est toujours organisateur)
-- `group` - ID du groupe lié (optionnel)
-- `hasTicketing` - Activer la billetterie (défaut: false)
-- `hasShoppingList` - Activer la liste de courses (défaut: false)
-- `hasCarpooling` - Activer le covoiturage (défaut: false)
-
-### Obtenir tous les événements
-
-```http
-GET /api/events?search=anniversaire&isPrivate=false&group=60d5ec49f1b2c8b1f8c7e8a2&limit=20&page=1
-```
-
-**Query Parameters:**
-- `search` - Rechercher par nom ou description
-- `isPrivate` - Filtrer par type (true/false)
-- `group` - Filtrer par groupe
-- `startDate` - Filtrer par date de début minimum
-- `endDate` - Filtrer par date de fin maximum
-- `limit` - Nombre de résultats par page (défaut: 20)
-- `page` - Numéro de page (défaut: 1)
-
-### Obtenir un événement par ID
-
-```http
-GET /api/events/:id
-```
-
-### Mettre à jour un événement
-
-```http
-PUT /api/events/:id
-```
-
-**Note:** Seuls les organisateurs peuvent modifier un événement
-
-### Supprimer un événement
-
-```http
-DELETE /api/events/:id
-```
-
-**Note:** Seuls le créateur ou les organisateurs peuvent supprimer un événement
-
-### Ajouter un participant
-
-```http
-POST /api/events/:id/participants
-```
-
-**Body:**
-```json
-{
-  "userId": "60d5ec49f1b2c8b1f8c7e8a1"
-}
-```
-
-### Retirer un participant
-
-```http
-DELETE /api/events/:id/participants/:userId
-```
-
----
-
-## 👥 Groupes
-
-### Créer un groupe
-
-```http
-POST /api/groups
-```
-
-**Body:**
-```json
-{
-  "name": "Tech Enthusiasts",
-  "description": "Groupe pour les passionnés de technologie",
-  "icon": "https://example.com/icon.jpg",
-  "coverPhoto": "https://example.com/cover.jpg",
-  "type": "public",
-  "allowMembersToPost": true,
-  "allowMembersToCreateEvents": false,
-  "administrators": ["60d5ec49f1b2c8b1f8c7e8a1"]
-}
-```
-
-**Champs requis:**
-- `name` - Nom du groupe (max 100 caractères)
-- `description` - Description (max 1000 caractères)
-- `type` - Type de groupe: "public", "private" ou "secret"
-
-**Champs optionnels:**
-- `icon` - URL de l'icône
-- `coverPhoto` - URL de la photo de couverture
-- `allowMembersToPost` - Les membres peuvent poster (défaut: true)
-- `allowMembersToCreateEvents` - Les membres peuvent créer des événements (défaut: false)
-- `administrators` - Array d'IDs d'administrateurs (l'utilisateur connecté est toujours admin)
-
-### Obtenir tous les groupes
-
-```http
-GET /api/groups?search=tech&type=public&limit=20&page=1
-```
-
-**Query Parameters:**
-- `search` - Rechercher par nom ou description
-- `type` - Filtrer par type (public/private/secret)
-- `limit` - Nombre de résultats par page (défaut: 20)
-- `page` - Numéro de page (défaut: 1)
-
-### Obtenir un groupe par ID
-
-```http
-GET /api/groups/:id
-```
-
-### Mettre à jour un groupe
-
-```http
-PUT /api/groups/:id
-```
-
-**Note:** Seuls les administrateurs peuvent modifier un groupe
-
-### Supprimer un groupe
-
-```http
-DELETE /api/groups/:id
-```
-
-**Note:** Seul le créateur peut supprimer un groupe
-
-### Ajouter un membre
-
-```http
-POST /api/groups/:id/members
-```
-
-**Body:**
-```json
-{
-  "userId": "60d5ec49f1b2c8b1f8c7e8a1"
-}
-```
-
-### Retirer un membre
-
-```http
-DELETE /api/groups/:id/members/:userId
-```
-
-### Ajouter un administrateur
-
-```http
-POST /api/groups/:id/administrators
-```
-
-**Body:**
-```json
-{
-  "userId": "60d5ec49f1b2c8b1f8c7e8a1"
+  "success": false,
+  "message": "Description de l'erreur",
+  "errors": [...]
 }
 ```
 
 ---
 
-## 📊 Modèles de données
+## 🔢 Codes HTTP
 
-### User (Utilisateur)
-
-```javascript
-{
-  firstName: String,        // Requis, max 50 caractères
-  lastName: String,         // Requis, max 50 caractères
-  email: String,            // Requis, unique, format email
-  password: String,         // Requis, min 6 caractères (hashé)
-  dateOfBirth: Date,        // Requis
-  profilePicture: String,   // URL, optionnel
-  coverPhoto: String,       // URL, optionnel
-  bio: String,              // Max 500 caractères
-  location: String,         // Optionnel
-  phone: String,            // Optionnel
-  isActive: Boolean,        // Défaut: true
-  createdAt: Date,          // Auto-généré
-  updatedAt: Date           // Auto-généré
-}
-```
-
-### Event (Événement)
-
-```javascript
-{
-  name: String,                    // Requis, max 200 caractères
-  description: String,             // Requis, max 5000 caractères
-  startDate: Date,                 // Requis
-  endDate: Date,                   // Requis (doit être après startDate)
-  location: String,                // Requis, max 500 caractères
-  coverPhoto: String,              // URL, optionnel
-  isPrivate: Boolean,              // Défaut: false
-  organizers: [ObjectId],          // Référence User, au moins 1 requis
-  participants: [ObjectId],        // Référence User
-  group: ObjectId,                 // Référence Group, optionnel
-  createdBy: ObjectId,             // Référence User, requis
-  hasTicketing: Boolean,           // Défaut: false
-  hasShoppingList: Boolean,        // Défaut: false
-  hasCarpooling: Boolean,          // Défaut: false
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### Group (Groupe)
-
-```javascript
-{
-  name: String,                    // Requis, max 100 caractères
-  description: String,             // Requis, max 1000 caractères
-  icon: String,                    // URL, optionnel
-  coverPhoto: String,              // URL, optionnel
-  type: String,                    // Requis: "public", "private", "secret"
-  allowMembersToPost: Boolean,     // Défaut: true
-  allowMembersToCreateEvents: Boolean, // Défaut: false
-  administrators: [ObjectId],      // Référence User, au moins 1 requis
-  members: [ObjectId],             // Référence User
-  createdBy: ObjectId,             // Référence User, requis
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### DiscussionThread (Fil de discussion)
-
-```javascript
-{
-  title: String,                   // Requis, max 200 caractères
-  group: ObjectId,                 // Référence Group (exclusif avec event)
-  event: ObjectId,                 // Référence Event (exclusif avec group)
-  createdBy: ObjectId,             // Référence User, requis
-  isPinned: Boolean,               // Défaut: false
-  isLocked: Boolean,               // Défaut: false
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### Message
-
-```javascript
-{
-  content: String,                 // Requis, max 10000 caractères
-  discussionThread: ObjectId,      // Référence DiscussionThread, requis
-  author: ObjectId,                // Référence User, requis
-  parentMessage: ObjectId,         // Référence Message, pour les réponses
-  attachments: [String],           // URLs, optionnel
-  isEdited: Boolean,               // Défaut: false
-  editedAt: Date,                  // Optionnel
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### PhotoAlbum (Album photo)
-
-```javascript
-{
-  name: String,                    // Requis, max 100 caractères
-  description: String,             // Max 500 caractères
-  event: ObjectId,                 // Référence Event, requis
-  createdBy: ObjectId,             // Référence User, requis
-  coverPhoto: String,              // URL, optionnel
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### Photo
-
-```javascript
-{
-  url: String,                     // Requis
-  caption: String,                 // Max 500 caractères
-  album: ObjectId,                 // Référence PhotoAlbum, requis
-  uploadedBy: ObjectId,            // Référence User, requis
-  size: Number,                    // Taille en octets
-  width: Number,                   // Largeur en pixels
-  height: Number,                  // Hauteur en pixels
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### PhotoComment (Commentaire photo)
-
-```javascript
-{
-  content: String,                 // Requis, max 1000 caractères
-  photo: ObjectId,                 // Référence Photo, requis
-  author: ObjectId,                // Référence User, requis
-  isEdited: Boolean,               // Défaut: false
-  editedAt: Date,                  // Optionnel
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### Poll (Sondage)
-
-```javascript
-{
-  title: String,                   // Requis, max 200 caractères
-  description: String,             // Max 1000 caractères
-  event: ObjectId,                 // Référence Event, requis
-  createdBy: ObjectId,             // Référence User, requis
-  questions: [{
-    questionText: String,          // Requis, max 500 caractères
-    options: [{
-      optionText: String           // Requis, max 200 caractères
-    }]
-  }],
-  isActive: Boolean,               // Défaut: true
-  closingDate: Date,               // Optionnel
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### PollResponse (Réponse au sondage)
-
-```javascript
-{
-  poll: ObjectId,                  // Référence Poll, requis
-  participant: ObjectId,           // Référence User, requis
-  answers: [{
-    questionId: ObjectId,          // ID de la question, requis
-    selectedOptionId: ObjectId     // ID de l'option sélectionnée, requis
-  }],
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### TicketType (Type de billet)
-
-```javascript
-{
-  name: String,                    // Requis, max 100 caractères
-  description: String,             // Max 500 caractères
-  price: Number,                   // Requis, min 0
-  quantity: Number,                // Requis, min 1
-  availableQuantity: Number,       // Auto-calculé
-  event: ObjectId,                 // Référence Event, requis
-  createdBy: ObjectId,             // Référence User, requis
-  isActive: Boolean,               // Défaut: true
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### Ticket (Billet)
-
-```javascript
-{
-  ticketType: ObjectId,            // Référence TicketType, requis
-  event: ObjectId,                 // Référence Event, requis
-  buyer: {
-    firstName: String,             // Requis, max 50 caractères
-    lastName: String,              // Requis, max 50 caractères
-    email: String,                 // Requis, format email
-    address: {
-      street: String,              // Requis
-      city: String,                // Requis
-      postalCode: String,          // Requis
-      country: String              // Requis
-    }
-  },
-  purchaseDate: Date,              // Défaut: Date.now
-  ticketNumber: String,            // Auto-généré, unique
-  price: Number,                   // Requis
-  status: String,                  // "valid", "used", "cancelled", "refunded"
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### ShoppingListItem (Liste de courses - BONUS)
-
-```javascript
-{
-  name: String,                    // Requis, max 100 caractères
-  quantity: Number,                // Requis, min 1
-  arrivalTime: Date,               // Requis
-  event: ObjectId,                 // Référence Event, requis
-  broughtBy: ObjectId,             // Référence User, requis
-  notes: String,                   // Max 500 caractères
-  isBrought: Boolean,              // Défaut: false
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
-
-### Carpool (Covoiturage - BONUS)
-
-```javascript
-{
-  event: ObjectId,                 // Référence Event, requis
-  driver: ObjectId,                // Référence User, requis
-  departureLocation: String,       // Requis, max 500 caractères
-  departureTime: Date,             // Requis
-  price: Number,                   // Requis, min 0
-  availableSeats: Number,          // Requis, min 1, max 8
-  maxDetourTime: Number,           // Requis, en minutes
-  passengers: [ObjectId],          // Référence User
-  status: String,                  // "available", "full", "cancelled", "completed"
-  notes: String,                   // Max 1000 caractères
-  createdAt: Date,                 // Auto-généré
-  updatedAt: Date                  // Auto-généré
-}
-```
+- `200 OK` - Requête réussie
+- `201 Created` - Ressource créée
+- `400 Bad Request` - Erreur de validation
+- `401 Unauthorized` - Authentification requise
+- `403 Forbidden` - Accès refusé
+- `404 Not Found` - Ressource non trouvée
+- `500 Internal Server Error` - Erreur serveur
 
 ---
 
-## 🔒 Règles de sécurité
+## Repository
 
-1. **Authentification**: Toutes les routes (sauf register/login) nécessitent un token JWT
-2. **Autorisation**:
-   - Un utilisateur ne peut modifier que son propre profil
-   - Seuls les organisateurs peuvent modifier/supprimer un événement
-   - Seuls les administrateurs peuvent modifier un groupe
-   - Seul le créateur peut supprimer un groupe
-3. **Validation**: Tous les inputs sont validés avec express-validator
-4. **Mots de passe**: Hashés avec bcryptjs (10 rounds)
-5. **Emails uniques**: Pas de doublons autorisés
+**https://github.com/boukriamelia215-ship-it/my-social-networks-api**
 
 ---
 
-## 📝 Notes importantes
+## ✅ Conformité au cahier des charges
 
-### Événements
-- Un événement doit avoir au moins un organisateur
-- La date de fin doit être postérieure à la date de début
-- Les événements liés à un groupe invitent automatiquement tous les membres
-- Les événements privés ne sont visibles que par les organisateurs et participants
-
-### Groupes
-- Un groupe doit avoir au moins un administrateur
-- Les groupes "secret" ne sont visibles que par les membres
-- Les groupes "private" sont visibles mais l'accès est contrôlé
-- Les groupes "public" sont visibles et accessibles à tous
-
-### Fils de discussion
-- Un fil doit être lié soit à un groupe, soit à un événement (pas les deux)
-- Les messages peuvent avoir des réponses (parentMessage)
-
-### Sondages
-- Chaque sondage doit avoir au moins une question
-- Chaque question doit avoir au moins deux options
-- Un participant ne peut répondre qu'une seule fois à un sondage
-
-### Billetterie
-- La quantité disponible est automatiquement mise à jour lors de l'achat
-- Un numéro de billet unique est généré automatiquement
-- Une personne ne peut acheter qu'un seul billet
-
-### Shopping List (BONUS)
-- Chaque article doit être unique par événement
-- Un utilisateur indique ce qu'il apporte
-
-### Covoiturage (BONUS)
-- Le statut est automatiquement mis à jour ("full" quand complet)
-- Le temps de détour maximum est en minutes
+- ✅ Tous les modèles de données spécifiés sont implémentés
+- ✅ Toutes les relations entre entités sont gérées
+- ✅ Validation des schémas avec Mongoose
+- ✅ Sécurisation avec express-validator
+- ✅ Authentification JWT fonctionnelle
+- ✅ Routes RESTful cohérentes
+- ✅ Fonctionnalités bonus (shopping list, covoiturage)
+- ✅ Documentation complète
+- ✅ Code sur repository Git
 
 ---
 
-## 🤝 Contribution
+##  Évolutions possibles
 
-Ce projet a été réalisé selon les spécifications du cahier des charges Facebook pour My Social Networks.
-
-## 📄 Licence
-
-ISC
+- Tests unitaires automatisés (Jest)
+- Documentation interactive (Swagger)
+- Upload réel de fichiers
+- Notifications en temps réel (WebSockets)
+- Caching avec Redis
+- Déploiement CI/CD
 
 ---
 
-**Développé avec ❤️ pour Facebook**
+**Projet réalisé par Amelia Boukri - M1 Data Engineering et IA - 2026**
