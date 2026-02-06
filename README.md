@@ -16,7 +16,7 @@ API REST complète pour la gestion d'un réseau social avec événements, groupe
 
 ##  À propos
 
-Cette API REST a été développée dans le cadre d'un projet universitaire pour Facebook. Elle permet de gérer un réseau social complet incluant :
+Cette API REST a été développée dans le cadre d'un projet école pour Facebook. Elle permet de gérer un réseau social complet incluant :
 
 - Gestion des utilisateurs avec authentification JWT
 - Création et gestion d'événements (publics/privés)
