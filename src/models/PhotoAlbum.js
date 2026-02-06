@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const photoAlbumSchema = new mongoose.Schema({
   name: {
@@ -36,4 +36,4 @@ photoAlbumSchema.index({ createdBy: 1 });
 
 const PhotoAlbum = mongoose.model('PhotoAlbum', photoAlbumSchema);
 
-export default PhotoAlbum;
+module.exports = PhotoAlbum;

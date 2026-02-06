@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
   name: {
@@ -92,4 +92,4 @@ eventSchema.pre('save', function(next) {
 
 const Event = mongoose.model('Event', eventSchema);
 
-export default Event;
+module.exports = Event;

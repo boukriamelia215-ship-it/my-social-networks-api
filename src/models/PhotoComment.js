@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const photoCommentSchema = new mongoose.Schema({
   content: {
@@ -34,4 +34,4 @@ photoCommentSchema.index({ author: 1 });
 
 const PhotoComment = mongoose.model('PhotoComment', photoCommentSchema);
 
-export default PhotoComment;
+module.exports = PhotoComment;

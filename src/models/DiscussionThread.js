@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const discussionThreadSchema = new mongoose.Schema({
   title: {
@@ -50,4 +50,4 @@ discussionThreadSchema.pre('save', function(next) {
 
 const DiscussionThread = mongoose.model('DiscussionThread', discussionThreadSchema);
 
-export default DiscussionThread;
+module.exports = DiscussionThread;

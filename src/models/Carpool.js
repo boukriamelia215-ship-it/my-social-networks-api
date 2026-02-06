@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const carpoolSchema = new mongoose.Schema({
   event: {
@@ -71,4 +71,4 @@ carpoolSchema.pre('save', function(next) {
 
 const Carpool = mongoose.model('Carpool', carpoolSchema);
 
-export default Carpool;
+module.exports = Carpool;

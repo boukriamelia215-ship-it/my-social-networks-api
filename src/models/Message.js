@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
   content: {
@@ -44,4 +44,4 @@ messageSchema.index({ parentMessage: 1 });
 
 const Message = mongoose.model('Message', messageSchema);
 
-export default Message;
+module.exports = Message;

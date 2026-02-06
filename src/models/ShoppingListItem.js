@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const shoppingListItemSchema = new mongoose.Schema({
   name: {
@@ -45,4 +45,4 @@ shoppingListItemSchema.index({ event: 1, broughtBy: 1 });
 
 const ShoppingListItem = mongoose.model('ShoppingListItem', shoppingListItemSchema);
 
-export default ShoppingListItem;
+module.exports = ShoppingListItem;

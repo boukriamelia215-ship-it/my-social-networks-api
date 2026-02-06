@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const photoSchema = new mongoose.Schema({
   url: {
@@ -43,4 +43,4 @@ photoSchema.index({ uploadedBy: 1 });
 
 const Photo = mongoose.model('Photo', photoSchema);
 
-export default Photo;
+module.exports = Photo;

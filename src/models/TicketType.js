@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const ticketTypeSchema = new mongoose.Schema({
   name: {
@@ -57,4 +57,4 @@ ticketTypeSchema.pre('save', function(next) {
 
 const TicketType = mongoose.model('TicketType', ticketTypeSchema);
 
-export default TicketType;
+module.exports = TicketType;
