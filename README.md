@@ -75,7 +75,7 @@ my-social-networks-api/
 
 ---
 
-## 🗄️ Modèles de données
+## Modèles de données
 
 L'API comprend **14 modèles** couvrant l'ensemble des fonctionnalités :
 
@@ -277,27 +277,27 @@ L'API sera accessible sur `http://localhost:3000`
 
 L'API a été testée avec **Postman**. Résultats des tests principaux :
 
-### ✅ Test 1 - Inscription utilisateur
+###  Test 1 - Inscription utilisateur
 **Endpoint** : `POST /api/auth/register`  
 **Résultat** : Utilisateur créé, token JWT généré, email unique vérifié
 
-### ✅ Test 2 - Authentification
+### Test 2 - Authentification
 **Endpoint** : `POST /api/auth/login`  
 **Résultat** : Connexion réussie, token JWT valide
 
-### ✅ Test 3 - Création de groupe
+### Test 3 - Création de groupe
 **Endpoint** : `POST /api/groups`  
 **Résultat** : Groupe créé, utilisateur ajouté comme admin
 
-### ✅ Test 4 - Création d'événement
+###  Test 4 - Création d'événement
 **Endpoint** : `POST /api/events`  
 **Résultat** : Événement créé, utilisateur ajouté comme organisateur
 
-**Statut global** : ✅ Tous les tests réussis
+**Statut global** :  Tous les tests réussis
 
 ---
 
-## ✨ Fonctionnalités clés
+##  Fonctionnalités clés
 
 - Architecture RESTful respectant les standards HTTP
 - Authentification sécurisée avec JWT
@@ -311,7 +311,7 @@ L'API a été testée avec **Postman**. Résultats des tests principaux :
 
 ---
 
-## 📤 Format des réponses
+##  Format des réponses
 
 **Succès** :
 ```json
@@ -333,7 +333,7 @@ L'API a été testée avec **Postman**. Résultats des tests principaux :
 
 ---
 
-## 🔢 Codes HTTP
+##  Codes HTTP
 
 - `200 OK` - Requête réussie
 - `201 Created` - Ressource créée
@@ -348,20 +348,20 @@ L'API a été testée avec **Postman**. Résultats des tests principaux :
 ## Repository
 
 **https://github.com/boukriamelia215-ship-it/my-social-networks-api**
-
+**Lien pour la documentation** :  https://documenter.getpostman.com/view/49048388/2sBXc8pPXd
 ---
 
-## ✅ Conformité au cahier des charges
+##  Conformité au cahier des charges
 
-- ✅ Tous les modèles de données spécifiés sont implémentés
-- ✅ Toutes les relations entre entités sont gérées
-- ✅ Validation des schémas avec Mongoose
-- ✅ Sécurisation avec express-validator
-- ✅ Authentification JWT fonctionnelle
-- ✅ Routes RESTful cohérentes
-- ✅ Fonctionnalités bonus (shopping list, covoiturage)
-- ✅ Documentation complète
-- ✅ Code sur repository Git
+-  Tous les modèles de données spécifiés sont implémentés
+-  Toutes les relations entre entités sont gérées
+-  Validation des schémas avec Mongoose
+-  Sécurisation avec express-validator
+-  Authentification JWT fonctionnelle
+-  Routes RESTful cohérentes
+-  Fonctionnalités bonus (shopping list, covoiturage)
+-  Documentation complète
+-  Code sur repository Git
 
 ---
 
