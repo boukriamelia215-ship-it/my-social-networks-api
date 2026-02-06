@@ -43,6 +43,8 @@ import discussionRoutes from './routes/discussions.js';
 import albumRoutes from './routes/albums.js';
 import pollRoutes from './routes/polls.js';
 import ticketRoutes from './routes/tickets.js';
+import shoppingRoutes from './routes/shopping.js';
+import carpoolsRoutes from './routes/carpools.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -51,7 +53,8 @@ app.use('/api/groups', groupRoutes);
 app.use('/api/discussions', discussionRoutes);
 app.use('/api/albums', albumRoutes);
 app.use('/api/polls', pollRoutes);
-app.use('/api/tickets', ticketRoutes);
+app.use('/api/shopping', shoppingRoutes);
+app.use('/api/carpools', carpoolsRoutes);
 
 // Middleware de gestion d'erreurs
 app.use(notFound);
